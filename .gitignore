@@ -104,3 +104,10 @@ InitTestScene*.unity*
 
 # Auto-generated cache in Assets folder
 /[Aa]ssets/[Ss]ceneDependencyCache*
+
+
+# Demo_から始まるフォルダとその中身
+**/Demo_*/
+
+# Demo_から始まるフォルダに対応する .meta ファイル
+**/Demo_*.meta
