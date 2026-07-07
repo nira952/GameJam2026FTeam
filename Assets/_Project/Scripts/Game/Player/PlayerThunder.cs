@@ -1,8 +1,9 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Rina_Script
 {
-
+    
 
 
     // プレイヤーの雷撃処理を担当するスクリプト
@@ -16,6 +17,8 @@ namespace Rina_Script
         private float lastThunderTime;
 
         private bool canThunder = true; // 雷撃が使用可能かどうかのフラグ
+
+        [SerializeField] private GameObject thunder;
 
         public void Initialize(PlayerRoot playerRoot, PlayerInputController inputController, float thunderCooldown)
         {
@@ -69,6 +72,13 @@ namespace Rina_Script
         {
             Debug.Log($"雷撃を実行しました。方向: {direction}");
 
+            direction.z = -Camera.main.transform.position.z;
+            Vector3 worldPos = Camera.main.ScreenToWorldPoint(direction);
+            Debug.Log($"World position{worldPos}");
+
+            GameObject go =  Instantiate(thunder, worldPos, Quaternion.identity);
+
+            Destroy(go,2f);
 
         }
         private void Update()
