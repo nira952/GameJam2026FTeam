@@ -111,3 +111,5 @@ InitTestScene*.unity*
 
 # Demo_から始まるフォルダに対応する .meta ファイル
 **/Demo_*.meta
+
+**/Fonts/
