@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8636117855018447486}
   - component: {fileID: 4207028044608724487}
   - component: {fileID: 4997417092964197641}
+  - component: {fileID: 6322930700908626798}
   m_Layer: 6
   m_Name: PlayerRoot
   m_TagString: Untagged
@@ -29,7 +30,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2321050896732669471}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -56,6 +57,7 @@ MonoBehaviour:
   playerMove: {fileID: 8636117855018447486}
   playerInputController: {fileID: 593647141707827677}
   playerThunder: {fileID: 4207028044608724487}
+  playerMegaThunder: {fileID: 6322930700908626798}
   playerData: {fileID: 11400000, guid: da91a2560b30f704f903c75d7a40aa42, type: 2}
   currentState: 0
   isDebugMode: 0
@@ -186,6 +188,21 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &6322930700908626798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2321050896732669471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1205370e35c70e4495054392ec20fd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerMegaThunder
+  thunder: {fileID: 4718099425678952631, guid: 18cee89116e1f0b4aad0155d1f581a28, type: 3}
+  effect: {fileID: 1793981556558425428, guid: b4a9f07c18a902048b9a9cb9b097e73e, type: 3}
+  maxThunderCount: 5
 --- !u!1 &8376630195634855470
 GameObject:
   m_ObjectHideFlags: 0
@@ -268,7 +285,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.30789137, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

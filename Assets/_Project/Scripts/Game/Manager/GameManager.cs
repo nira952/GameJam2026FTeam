@@ -36,6 +36,10 @@ public class GameManager : MonoBehaviour
     public GameState CurrentGameState => currentGameState;
 
 
+    private float gameTimer = 0f; // ゲームの経過時間を管理するタイマー
+
+
+
     // ゲーム状態が変化したときに呼ばれるイベント
     private void OnGameStateChanged(GameState newState)
     {
@@ -61,6 +65,17 @@ public class GameManager : MonoBehaviour
         // ゲーム開始のカウントダウンを開始
         StartCoroutine(StartGame());
     }
+
+    private void Update()
+    {
+        // ゲーム状態がPlayingのときのみタイマーを更新
+        if (currentGameState == GameState.Playing)
+        {
+            gameTimer += Time.deltaTime;
+            gameUIManager.UpdateTimerText(gameTimer); // UIにタイマーを表示
+        }
+    }
+
 
     // ゲーム開始処理
     private IEnumerator StartGame()
@@ -114,6 +129,9 @@ public class GameManager : MonoBehaviour
         currentGameState = GameState.GameOver;
         OnGameStateChanged(currentGameState);
 
+        // タイムスコアを追加
+        ScoreManager.Instance.AddTimeScore(Mathf.FloorToInt(gameTimer)); 
+
         if (ScoreManager.Instance != null)
         {
             // スコアを記録する処理を呼び出す
@@ -121,7 +139,7 @@ public class GameManager : MonoBehaviour
         }
 
         // リザルトパネルを開く
-        gameUIManager.OpenResultPanel(ScoreManager.Instance.GetScore());
+        gameUIManager.OpenResultPanel(ScoreManager.Instance.GetScores());
     }
 
     private void RetryGame()

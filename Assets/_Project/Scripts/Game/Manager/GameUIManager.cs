@@ -10,8 +10,10 @@ public class GameUIManager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI countDownText;
 
+    [SerializeField] private TextMeshProUGUI timerText; // タイマー表示用のテキスト
+
     [SerializeField] private CanvasGroup resultPanel; // リザルトパネル
-    [SerializeField] private TextMeshProUGUI resultScoreText; // リザルトスコアテキスト
+    [SerializeField] private TextMeshProUGUI[] resultScoreText = new TextMeshProUGUI[(int)ScoreType.Total]; // リザルトスコアテキスト
 
 
     /// <summary>
@@ -35,13 +37,26 @@ public class GameUIManager : MonoBehaviour
         countDownText.text = count.ToString();
     }
 
+    public void UpdateTimerText(float time)
+    {
+        int minutes = Mathf.FloorToInt(time / 60f);
+        int seconds = Mathf.FloorToInt(time % 60f);
+        timerText.text = $"{minutes:00}:{seconds:00}";
+    }
+
 
     /// <summary>
     /// リザルトパネルを開く
     /// </summary>
-    public void OpenResultPanel(int score)
+    public void OpenResultPanel(int[] scores)
     {
-        resultScoreText.text = $"Score: {score}";
+        for (int i = 0; i < scores.Length && i < resultScoreText.Length; i++)
+        {
+            string scoreText = $"{(ScoreType)i}: {scores[i]}";
+
+            resultScoreText[i].text = scoreText;
+        }
+    
         resultPanel.DOFade(1, 0.5f);
         resultPanel.interactable = true;
         resultPanel.blocksRaycasts = true;
