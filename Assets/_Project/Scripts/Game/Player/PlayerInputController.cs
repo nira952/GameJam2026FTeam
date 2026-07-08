@@ -43,6 +43,16 @@ namespace Rina_Script
         private void OnThunder(InputAction.CallbackContext contect)
         {
             Debug.Log("雷");
+
+            // 雷を落とす位置（ポイントで取得する）
+            var pointer = Pointer.current;
+            if (pointer == null)
+                return;
+            
+            Vector3 position = pointer.position.ReadValue();
+            Debug.Log($"{position}");
+            OnThunderPressed.Invoke(position);
+
         }
         private void OnInteract(InputAction.CallbackContext contect)
         {
