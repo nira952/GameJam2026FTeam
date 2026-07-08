@@ -1,3 +1,4 @@
+using Rina_Script;
 using UnityEngine;
 
 
@@ -9,10 +10,12 @@ public class TaikoScript : MonoBehaviour, IInteractable
         return "叩く";
     }
 
-    public void Interact()
+    public PlayerState Interact()
     {
-        Debug.Log("太鼓を叩いた！");
+        Debug.Log("太鼓モードON！");
 
         //TODO : ここにカメラ移動の処理を追加する
+
+        return PlayerState.Thunder;
     }
 }

@@ -28,9 +28,19 @@ namespace Rina_Script
             // 目の前にインタラクト対象がないなら何もしない
             if (currentInteractable == null) return;
 
-            // ステートを切り替える
-            currentInteractable.Interact();
-            playerRoot.ChangeState();
+
+            // 現在のステートがMove状態の場合のみ、ステートを切り替える
+            if (playerRoot.CurrentState == PlayerState.Move)
+            {
+                // ステートを取得
+                PlayerState state = currentInteractable.Interact();
+
+                playerRoot.ChangeState(state);
+            }
+            else
+            {
+                playerRoot.ChangeState(PlayerState.Move);
+            }
         }
 
 

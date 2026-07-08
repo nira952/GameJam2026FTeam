@@ -1,7 +1,9 @@
+using Rina_Script;
+
 public interface IInteractable
 {
     // インタラクトされたときに実行する関数
-    void Interact();
+    PlayerState Interact();
 
     string GetInteractPrompt();
 }

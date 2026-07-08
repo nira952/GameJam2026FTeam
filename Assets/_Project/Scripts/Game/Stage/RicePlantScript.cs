@@ -21,7 +21,7 @@ public class RicePlantScript : MonoBehaviour
 
     [SerializeField] private Color[] growthColors = new Color[4]; // 成長段階に応じた色を設定する配列
 
-    private GrowthStage currentStage = GrowthStage.Brown;
+    [SerializeField] private GrowthStage currentStage = GrowthStage.Brown;
     private float growthTimer;
 
     private void Awake()
@@ -102,20 +102,27 @@ public class RicePlantScript : MonoBehaviour
     }
 
     // プレイヤーから呼ばれる「収穫してくれ！」という関数
-    public void Harvest()
+    public bool Harvest()
     {
         // 黄色のときだけ収穫を許可する
-        if (currentStage == GrowthStage.Yellow)
-        {
-            Debug.Log("稲を収穫しました！");
+        if (currentStage != GrowthStage.Yellow) { return false; }
 
-            // 最初の段階（茶色）に戻る
-            currentStage = GrowthStage.Brown;
-            growthTimer = 0f;
-            DebugUpdateAppearance();
 
-            // スコアを加算する
-            ScoreManager.Instance.AddScore(ScoreType.Rice);
-        }
+        Debug.Log("稲を収穫しました！");
+
+        // 最初の段階（茶色）に戻る
+        currentStage = GrowthStage.Brown;
+        growthTimer = 0f;
+        DebugUpdateAppearance();
+
+        MegaTaikoScript.Instance.AddRicePower();
+
+        // スコアを加算する
+        ScoreManager.Instance.AddScore(ScoreType.Rice);
+
+        return true;
+        
+
+
     }
 }

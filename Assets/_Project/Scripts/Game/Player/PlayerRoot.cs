@@ -4,8 +4,9 @@ namespace Rina_Script
 
     public enum PlayerState
     {
-        Move,   // 移動中
-        Thunder // 雷撃中
+        Move,       // 移動中
+        Thunder,    // 雷撃モード中
+        MegaThunder // メガ雷撃モード中
     }
 
     // プレイヤーのルートスクリプト
@@ -49,21 +50,31 @@ namespace Rina_Script
             playerMove.Initialize(this, playerInputController, playerData.moveSpeed);
             playerThunder.Initialize(this, playerInputController, playerData.thunderCooldown);
 
+            // ゲーム開始時はカーソルを非表示＆画面中央にロック
+            SetCursorState(false);
         }
 
 
-        public void ChangeState()
+        public void ChangeState(PlayerState state)
         {
-            // 現在のステートがMoveの場合はThunderに切り替える
-            if (currentState == PlayerState.Move)
+            currentState = state;
+
+            switch (currentState)
             {
-                currentState = PlayerState.Thunder;
+                case PlayerState.Move:
+                    SetCursorState(false);
+
+                    break;
+                case PlayerState.Thunder:
+                    SetCursorState(true);
+
+                    break;
+                case PlayerState.MegaThunder:
+
+                    break;
             }
-            // 現在のステートがThunderの場合はMoveに切り替える
-            else if (currentState == PlayerState.Thunder)
-            {
-                currentState = PlayerState.Move;
-            }
+
+
         }
 
         public bool CanThunder()
@@ -115,5 +126,27 @@ namespace Rina_Script
 
         }
 
+        /// <summary>
+        /// カーソルの表示状態を切り替えるメソッド
+        /// </summary>
+        /// <param name="visible">trueで表示、falseで非表示</param>
+        public void SetCursorState(bool visible)
+        {
+            // 1. 表示・非表示の切り替え
+            Cursor.visible = visible;
+
+            // 2. ロック状態の切り替え
+            if (visible)
+            {
+                // カーソルを表示するときは、自由に動かせるようにする
+                Cursor.lockState = CursorLockMode.None;
+            }
+            else
+            {
+                // カーソルを消すときは、画面中央に固定（ロック）する
+                // これをしないと、見えないカーソルが画面外に出てクリックした時にゲームが背面に隠れてしまいます
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+        }
     }
 }
