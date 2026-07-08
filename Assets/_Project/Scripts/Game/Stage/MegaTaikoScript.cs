@@ -1,4 +1,5 @@
 using Rina_Script;
+using Simizu;
 using UnityEngine;
 
 
@@ -79,6 +80,8 @@ public class MegaTaikoScript : MonoBehaviour, IInteractable
 
         //TODO : ここにカメラ移動の処理を追加する
 
+        CameraManager.Instance.ChangeCamera(CameraPos.Center);
+
         return PlayerState.MegaThunder; // メガ雷撃モードに遷移する
     }
 
@@ -93,6 +96,7 @@ public class MegaTaikoScript : MonoBehaviour, IInteractable
             if (currentRicePower <= 0f)
             {
                 isMegaTaikoModeActive = false; // メガ太鼓モードを無効にする
+                CameraManager.Instance.ResetCamera();
                 Debug.Log("メガ太鼓モードOFF！");
             }
         }
