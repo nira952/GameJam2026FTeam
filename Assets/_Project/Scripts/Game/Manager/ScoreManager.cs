@@ -5,7 +5,8 @@ public enum ScoreType
     Rice, // 米のスコア
     Enemy, // 敵のスコア
     Boss, // ボスのスコア
-    Num   // スコアの種類の数
+    Time, // 時間のスコア
+    Total   // スコアの種類の数
 }
 
 
@@ -45,11 +46,13 @@ public class ScoreManager : MonoBehaviour
     }
     #endregion
 
-    [SerializeField] private int[] scoreAmount = new int[(int)ScoreType.Num];
+    [Header("スコア設定,0: 米のスコア, 1: 敵のスコア, 2: ボスのスコア, 3: 時間のスコア")]
+    [SerializeField] private int[] scoreAmount = new int[(int)ScoreType.Total];
 
+    // 現在のスコア最後の行はTotalスコア用に使用するため、ScoreType.Num + 1のサイズにする
+    [SerializeField] private int[] currentScore = new int[(int)ScoreType.Total + 1];
 
     // --- スコアの管理 ---
-    [SerializeField] private int score = 0; // スコアの初期値
 
     // スコアランキングの配列（上位5位まで）
     [SerializeField] private ScoreData[] scoreRanking = new ScoreData[5];
@@ -63,18 +66,33 @@ public class ScoreManager : MonoBehaviour
     /// <param name="amount"></param>
     public void AddScore(ScoreType type)
     {
-        score += scoreAmount[(int)type];
-        Debug.Log($"Score added: {scoreAmount[(int)type]}. Total score: {score}");
+        currentScore[(int)type] += scoreAmount[(int)type];
+        currentScore[(int)ScoreType.Total] += scoreAmount[(int)type]; // Total scoreも加算
+        Debug.Log($"Score added: {scoreAmount[(int)type]}. Total score: {currentScore[(int)ScoreType.Total]}");
     }
+
+    public void AddTimeScore(int time)
+    {
+        currentScore[(int)ScoreType.Time] += time;
+        currentScore[(int)ScoreType.Total] += time; // Total scoreも加算
+        Debug.Log($"Time score added: {time}. Total score: {currentScore[(int)ScoreType.Total]}");
+    }
+
+    public int[] GetScores()
+    {
+        return currentScore;
+    }
+
 
     /// <summary>
     /// スコアを取得するメソッド
     /// </summary>
     /// <returns></returns>
-    public int GetScore()
+    public int GetTotalScore()
     {
-        return score;
-    }   
+        // Total scoreを返す
+        return currentScore[(int)ScoreType.Total];
+    }
 
     public ScoreData[] GetScoreRanking()
     {
@@ -89,14 +107,14 @@ public class ScoreManager : MonoBehaviour
         // 現在のスコアをランキングに追加
         for (int i = 0; i < scoreRanking.Length; i++)
         {
-            if (score > scoreRanking[i].score)
+            if (currentScore[(int)ScoreType.Total] > scoreRanking[i].score)
             {
                 // スコアを挿入する位置を見つけたら、後ろのスコアをシフトして挿入
                 for (int j = scoreRanking.Length - 1; j > i; j--)
                 {
                     scoreRanking[j] = scoreRanking[j - 1];
                 }
-                scoreRanking[i] = new ScoreData(score, "PlayerName"); 
+                scoreRanking[i] = new ScoreData(currentScore[(int)ScoreType.Total], "PlayerName");    
                 break;
             }
         }

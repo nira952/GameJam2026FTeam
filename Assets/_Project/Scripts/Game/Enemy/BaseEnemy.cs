@@ -91,6 +91,9 @@ public abstract class BaseEnemy : MonoBehaviour
     // プールへ戻る共通処理
     public void ReturnToPool()
     {
+        ScoreManager.Instance.AddScore(ScoreType.Enemy); // スコアを加算
+
+
         if (originPool != null)
         {
             originPool.Release(this);

@@ -1,3 +1,4 @@
+using Simizu;
 using UnityEngine;
 namespace Rina_Script
 {
@@ -35,10 +36,13 @@ namespace Rina_Script
                 // ステートを取得
                 PlayerState state = currentInteractable.Interact();
 
+                if (state == PlayerState.Move) { CameraManager.Instance.ResetCamera(); }
+
                 playerRoot.ChangeState(state);
             }
             else
             {
+                CameraManager.Instance.ResetCamera();
                 playerRoot.ChangeState(PlayerState.Move);
             }
         }

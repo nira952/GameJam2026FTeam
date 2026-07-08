@@ -5,9 +5,10 @@ public class RicePlantScript : MonoBehaviour
     private enum GrowthStage
     {
         Brown = 0,      // 段階0: 茶色（植えたて / 収穫後）
-        Green = 1,      // 段階1: 緑
-        LightGreen = 2, // 段階2: 黄緑
-        Yellow = 3      // 段階3: 黄色（収穫可能！）
+        DarkGreen = 1,  // 段階1: 深緑
+        Green = 2,      // 段階2: 緑
+        LightGreen = 3, // 段階3: 黄緑
+        Yellow = 4      // 段階4: 黄色（収穫可能！）
     }
 
     [Header("--- 成長スピード設定 ---")]
@@ -17,9 +18,9 @@ public class RicePlantScript : MonoBehaviour
     [Header("--- 見た目の設定 (Sprite) ---")]
     [SerializeField] private SpriteRenderer spriteRenderer;
 
-    [SerializeField] private Sprite[] growthSprites = new Sprite[4]; // 最初から要素数4で初期化
+    [SerializeField] private Sprite[] growthSprites = new Sprite[5]; // 最初から要素数4で初期化
 
-    [SerializeField] private Color[] growthColors = new Color[4]; // 成長段階に応じた色を設定する配列
+    [SerializeField] private Color[] growthColors = new Color[5]; // 成長段階に応じた色を設定する配列
 
     [SerializeField] private GrowthStage currentStage = GrowthStage.Brown;
     private float growthTimer;

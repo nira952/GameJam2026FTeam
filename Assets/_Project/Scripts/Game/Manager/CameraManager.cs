@@ -13,6 +13,7 @@ namespace Simizu
         LeftLower,      // 左下
         RightUpper,     // 右上
         RightLower,     // 右下
+        Center,         // 中央
         Player,         // プレイヤー
     }
 

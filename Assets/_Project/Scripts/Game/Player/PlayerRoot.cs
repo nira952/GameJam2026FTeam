@@ -21,6 +21,7 @@ namespace Rina_Script
         [SerializeField] private PlayerMove playerMove;                       // 移動処理を担当するスクリプト
         [SerializeField] private PlayerInputController playerInputController; // プレイヤーの入力処理を担当するスクリプト
         [SerializeField] private PlayerThunder playerThunder;                 // 雷撃処理を担当するスクリプト
+        [SerializeField] private PlayerMegaThunder playerMegaThunder;
 
         // --- プレイヤーのパラメータ---
 
@@ -49,6 +50,7 @@ namespace Rina_Script
             playerInteractor.Initialize(this, playerInputController);
             playerMove.Initialize(this, playerInputController, playerData.moveSpeed);
             playerThunder.Initialize(this, playerInputController, playerData.thunderCooldown);
+            playerMegaThunder.Initialize(this, playerInputController);
 
             // ゲーム開始時はカーソルを非表示＆画面中央にロック
             SetCursorState(false);

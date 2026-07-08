@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 namespace Rina_Script
 {
 
@@ -12,6 +13,7 @@ namespace Rina_Script
         // --- 変数 ---
         private float moveSpeed;                         // プレイヤーの移動速度
 
+        private Vector2 currentDirection = Vector2.zero;
 
         // 初期化処理
         public void Initialize(PlayerRoot playerRoot, PlayerInputController inputController, float moveSpeed)
@@ -26,16 +28,10 @@ namespace Rina_Script
 
         private void SettingActions()
         {
-            inputController.OnMoveAction += Move;
+            inputController.OnMoveAction += ChangeDirection;
         }
 
         private void Update()
-        {
-            // デバッグ用の仮の移動処理（WASDキーでの移動）
-            Move(Vector2.down);
-        }
-
-        private void Move(Vector2 vector)
         {
             // ゲームの状態がPlayingでない場合は移動できない
             if (GameManager.Instance.CurrentGameState != GameState.Playing) { return; }
@@ -43,15 +39,29 @@ namespace Rina_Script
             // プレイヤーの状態がMoveの場合にのみ移動可能
             if (playerRoot.CurrentState != PlayerState.Move) { return; }
 
+            // 移動処理
+            Move();
+        }
 
-            //// 仮の移動処理（WASDキーでの移動）
+        private void Move()
+        {
+            // 現在の方向に基づいてプレイヤーを移動させる
+            transform.Translate(currentDirection * moveSpeed * Time.deltaTime, Space.World);
 
-            float moveX = Input.GetAxis("Horizontal");
-            float moveY = Input.GetAxis("Vertical");
+        }
 
-            Vector3 moveDirection = new Vector3(moveX, moveY, 0f).normalized;
+        private void ChangeDirection(Vector2 vector)
+        {
+            // ゲームの状態がPlayingでない場合は移動できない
+            if (GameManager.Instance.CurrentGameState != GameState.Playing) { return; }
 
-            transform.position += moveDirection * moveSpeed * Time.deltaTime;
+            // プレイヤーの状態がMoveの場合にのみ移動可能
+            if (playerRoot.CurrentState != PlayerState.Move) { return; }
+
+            Debug.Log($"ChangeDirection: {vector}");
+
+            // プレイヤーの移動方向を更新
+            currentDirection = vector.normalized;
         }
 
     }
