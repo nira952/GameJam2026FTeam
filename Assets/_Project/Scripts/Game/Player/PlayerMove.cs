@@ -26,7 +26,7 @@ namespace Rina_Script
 
         private void SettingActions()
         {
-            inputController.OnMove += Move;
+            inputController.OnMoveAction += Move;
         }
 
         private void Update()

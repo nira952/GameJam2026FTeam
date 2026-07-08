@@ -1,8 +1,29 @@
+using System.Collections.Generic; // 必須：Listを使うために追加
 using UnityEngine;
 using UnityEngine.Pool;
 
 public class SpawnManager : MonoBehaviour
 {
+    // --- シングルトンパターンの実装 ---
+    #region Singleton
+    public static SpawnManager Instance { get; private set; }
+
+    private void Awake()
+    {
+        // すでにインスタンスが存在しているかチェック
+        if (Instance != null && Instance != this)
+        {
+            // 重複している場合は自身を破棄
+            Destroy(gameObject);
+            return;
+        }
+
+        // インスタンスを自身に設定
+        Instance = this;
+    }
+    #endregion
+
+
     private enum Direction
     {
         Up = 0,
@@ -44,7 +65,30 @@ public class SpawnManager : MonoBehaviour
     private float waveDuration;
     private float waveTimer;
 
-    private void Awake()
+    // --- 稼働中の敵を管理するリスト ---
+    private readonly List<BaseEnemy> activeEnemies = new List<BaseEnemy>();
+
+    /// <summary>
+    /// 現在稼働している敵の読み取り専用リスト（外部参照用）
+    /// </summary>
+    public IReadOnlyList<BaseEnemy> ActiveEnemies => activeEnemies;
+
+    public Vector3 GetRandomActiveEnemiePos()
+    {
+        // 稼働中の敵がいない場合は Vector3.zero を返す
+        if (activeEnemies.Count == 0)
+        {
+            return Vector3.zero;
+        }
+
+        // ランダムに敵を選択してその位置を返す
+        int randomIndex = Random.Range(0, activeEnemies.Count);
+
+        return activeEnemies[randomIndex].transform.position;
+    }
+
+
+    private void Start()
     {
         // SOがセットされていなかったらエラーを出す
         if (spawnSettings == null)
@@ -102,7 +146,6 @@ public class SpawnManager : MonoBehaviour
     private void UpdateSpawnSpeed()
     {
         elapsedTime += Time.deltaTime;
-        // SOの値（timeToReachMaxSpeed）を参照
         float progress = Mathf.Clamp01(elapsedTime / spawnSettings.timeToReachMaxSpeed);
 
         float minInterval = Mathf.Min(spawnSettings.initialSpawnInterval, spawnSettings.minSpawnInterval);
@@ -113,7 +156,6 @@ public class SpawnManager : MonoBehaviour
     {
         currentFavoriteDirection = (Direction)Random.Range(0, 4);
 
-        // SOの値（minWaveDuration / maxWaveDuration）を参照
         float minWave = spawnSettings.minWaveDuration;
         float maxWave = Mathf.Max(spawnSettings.minWaveDuration, spawnSettings.maxWaveDuration);
         waveDuration = Random.Range(minWave, maxWave);
@@ -133,7 +175,6 @@ public class SpawnManager : MonoBehaviour
     private Vector3 CalculateSpawnPosition()
     {
         Direction finalDirection;
-        // SOの値（favoriteDirectionChance）を参照
         if (Random.value < spawnSettings.favoriteDirectionChance)
         {
             finalDirection = currentFavoriteDirection;
@@ -153,7 +194,6 @@ public class SpawnManager : MonoBehaviour
             finalDirection = otherDirections[Random.Range(0, 3)];
         }
 
-        // SOの値（positionVariance / spawnDistance）を参照
         float variance = Random.Range(-spawnSettings.positionVariance, spawnSettings.positionVariance);
         Vector3 spawnPos = Vector3.zero;
 
@@ -194,8 +234,26 @@ public class SpawnManager : MonoBehaviour
     {
         enemy.gameObject.SetActive(true);
         enemy.OnSpawn();
+
+        // リストに追加
+        if (!activeEnemies.Contains(enemy))
+        {
+            activeEnemies.Add(enemy);
+        }
     }
 
-    private void OnReleaseEnemy(BaseEnemy enemy) => enemy.gameObject.SetActive(false);
-    private void OnDestroyEnemy(BaseEnemy enemy) => Destroy(enemy.gameObject);
+    private void OnReleaseEnemy(BaseEnemy enemy)
+    {
+        enemy.gameObject.SetActive(false);
+
+        // リストから削除
+        activeEnemies.Remove(enemy);
+    }
+
+    private void OnDestroyEnemy(BaseEnemy enemy)
+    {
+        // 万が一、アクティブなまま破棄された場合の安全策
+        activeEnemies.Remove(enemy);
+        Destroy(enemy.gameObject);
+    }
 }

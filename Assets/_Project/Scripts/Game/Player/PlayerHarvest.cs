@@ -21,8 +21,10 @@ namespace Rina_Script
             if (collision.TryGetComponent(out RicePlantScript rice))
             {
                 // 稲の収穫関数を呼ぶ
-                rice.Harvest();
-                playerRoot.AddRicePower(); // プレイヤー稲力を増加させる関数を呼ぶ
+                if (rice.Harvest())
+                {
+                    playerRoot.AddRicePower(); // プレイヤー稲力を増加させる関数を呼ぶ
+                }
             }
         }
     }
