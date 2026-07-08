@@ -1,3 +1,4 @@
+using DG.Tweening;
 using Rina_Script;
 using UnityEngine;
 
@@ -11,6 +12,11 @@ public class PlayerMegaThunder : MonoBehaviour
     private PlayerRoot playerRoot;
 
     private int thunderCount = 0; // 雷撃の回数をカウントする変数
+
+    [SerializeField] GameObject thunder;
+    [SerializeField] GameObject effect;
+
+    [SerializeField] private int maxThunderCount = 0;
 
     public void Initialize(PlayerRoot playerRoot, PlayerInputController inputController)
     {
@@ -56,9 +62,17 @@ public class PlayerMegaThunder : MonoBehaviour
         // 雷撃の回数をカウント
         thunderCount++;
 
-        if (thunderCount >= 3)
+        if (thunderCount >= maxThunderCount)
         {
+            thunderCount = 0;
             // 3回雷撃したら,一度大きな雷撃を落とす
+            GameObject go = Instantiate(thunder, direction, Quaternion.identity);
+
+            GameObject ef = Instantiate(effect, new Vector3(0,0,0), Quaternion.identity);
+            ef.transform.DOScale(new Vector3(100,100,0),0.3f);
+
+            Destroy(ef, 0.5f);
+            Destroy(go, 1.0f);
             Debug.Log("大雷撃を落としました！");
         }
     }
