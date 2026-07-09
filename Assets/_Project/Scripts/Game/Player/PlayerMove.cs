@@ -15,6 +15,9 @@ namespace Rina_Script
 
         private Vector2 currentDirection = Vector2.zero;
 
+        [SerializeField] GameObject fence;
+
+
         // 初期化処理
         public void Initialize(PlayerRoot playerRoot, PlayerInputController inputController, float moveSpeed)
         {
@@ -48,6 +51,37 @@ namespace Rina_Script
             // 現在の方向に基づいてプレイヤーを移動させる
             transform.Translate(currentDirection * moveSpeed * Time.deltaTime, Space.World);
 
+            // フェンスの範囲内のみ移動可能にする
+            Vector2 vec2 = transform.position;
+            float fenceX = fence.transform.lossyScale.x / 2;
+            float fenceY = fence.transform.lossyScale.y / 2;
+
+            if(vec2.x <= fenceX
+            && vec2.x >= -fenceX
+            && vec2.y <= fenceY
+            && vec2.y <= -fenceY) {return;}
+
+            if (vec2.x >= fenceX)
+            {
+                vec2.x = fenceX;
+            }
+
+            if (vec2.x <= -fenceX)
+            {
+                vec2.x = -fenceX;
+            }
+
+            if (vec2.y >= fenceY)
+            {
+                vec2.y = fenceY;
+            }
+
+            if (vec2.y <= -fenceY)
+            {
+                vec2.y = -fenceY;
+            }
+
+            transform.position = vec2; 
         }
 
         private void ChangeDirection(Vector2 vector)
