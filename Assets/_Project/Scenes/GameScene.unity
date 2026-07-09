@@ -2747,6 +2747,14 @@ PrefabInstance:
       propertyPath: worpPoint
       value: 
       objectReference: {fileID: 1514651724}
+    - target: {fileID: 6033193800804014283, guid: 6b0aeb551d5174447bac6cecce1200a8, type: 3}
+      propertyPath: m_Size.x
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6033193800804014283, guid: 6b0aeb551d5174447bac6cecce1200a8, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -4789,6 +4797,14 @@ PrefabInstance:
       propertyPath: worpPoint
       value: 
       objectReference: {fileID: 2063690303}
+    - target: {fileID: 6033193800804014283, guid: 6b0aeb551d5174447bac6cecce1200a8, type: 3}
+      propertyPath: m_Size.x
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6033193800804014283, guid: 6b0aeb551d5174447bac6cecce1200a8, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:

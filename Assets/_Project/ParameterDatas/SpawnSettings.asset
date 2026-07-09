@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2b17f7df3fee994aa89b77ff3d9ac9c, type: 3}
   m_Name: SpawnSettings
   m_EditorClassIdentifier: Assembly-CSharp::SpawnSettingsData
-  defaultEnemyInterval: 5
-  zigZagEnemyInterval: 20
-  bossEnemyInterval: 60
+  defaultEnemyInterval: 3
+  zigZagEnemyInterval: 4
+  bossEnemyInterval: 20
   initialSpawnInterval: 2
   minSpawnInterval: 0.3
   timeToReachMaxSpeed: 300
-  spawnDistance: 15
+  spawnDistance: 20
   positionVariance: 3
-  minWaveDuration: 20
-  maxWaveDuration: 50
-  favoriteDirectionChance: 0.7
+  minWaveDuration: 15
+  maxWaveDuration: 40
+  favoriteDirectionChance: 0.25
