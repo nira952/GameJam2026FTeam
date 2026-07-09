@@ -76,6 +76,9 @@ namespace Rina_Script
         // 雷撃の実行処理
         private void ExecuteThunderAttack(Vector3 direction)
         {
+            AudioManager.Instance.Play(SeName.Thunder);
+            AudioManager.Instance.Play(SeName.Don);
+
             Debug.Log($"雷撃を実行しました。方向: {direction}");
 
             Camera mainCamera = CameraManager.Instance.GetMainCamera();

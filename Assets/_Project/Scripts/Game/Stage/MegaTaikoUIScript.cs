@@ -42,6 +42,8 @@ public class MegaTaikoUIScript : MonoBehaviour
     public void UpdateRiceSlider(float currentValue)
     {
         ricePowerSlider.value = currentValue;
+
+        OpenMegaTaikoPanel(); // スライダー更新時にパネルを開く
     }
 
     // 現在のスライダーの値に応じたグラデーション色を適用する共通メソッド

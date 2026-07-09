@@ -23,7 +23,7 @@ namespace Rina_Script
 
         private bool canInteract = true;
         private float interactCooldownTimer = 0;
-        private float interactCooldownTime = 0.1f;
+        private float interactCooldownTime = 0.3f;
 
         public void Initialize(PlayerRoot playerRoot)
         {

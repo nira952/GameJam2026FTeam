@@ -6,18 +6,25 @@ public class PlayerAnimator : MonoBehaviour
 {
     private Animator animator;
 
+    private SpriteRenderer spriteRenderer;
+
+    private PlayerRoot playerRoot;
     private PlayerInputController playerInputController;
     private PlayerHarvest playerHarvest;
+
+
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    public void Initialize(PlayerInputController playerInputController, PlayerHarvest playerHarvest)
+    public void Initialize(PlayerRoot playerRoot, PlayerInputController playerInputController, PlayerHarvest playerHarvest)
     {
         this.playerInputController = playerInputController;
         this.playerHarvest = playerHarvest;
+        this.playerRoot = playerRoot;
 
         SettingActions();
 
@@ -40,10 +47,17 @@ public class PlayerAnimator : MonoBehaviour
         playerInputController.OnThunderPressed += OnThunder;
     }
 
+    public void SettingOrderLayer(int layer)
+    {
+        spriteRenderer.sortingOrder = layer;
+    }
+
+
 
     private void OnMove(Vector2 movementInput)
     {
-        if (GameManager.Instance.CurrentGameState != GameState.Playing)
+        if (GameManager.Instance.CurrentGameState != GameState.Playing ||
+            playerRoot.CurrentState != PlayerState.Move)
         {
             // ゲームがプレイ中でない場合、アニメーションを再生しない
             return;

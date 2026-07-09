@@ -53,6 +53,29 @@ public class GameManager : MonoBehaviour
         gameUIManager.retryButton.onClick.AddListener(RetryGame);
     }
 
+    /// <summary>
+    /// カーソルの表示状態を切り替えるメソッド
+    /// </summary>
+    /// <param name="visible">trueで表示、falseで非表示</param>
+    public void SetCursorState(bool visible)
+    {
+        // 1. 表示・非表示の切り替え
+        Cursor.visible = visible;
+
+        // 2. ロック状態の切り替え
+        if (visible)
+        {
+            // カーソルを表示するときは、自由に動かせるようにする
+            Cursor.lockState = CursorLockMode.None;
+        }
+        else
+        {
+            // カーソルを消すときは、画面中央に固定（ロック）する
+            // これをしないと、見えないカーソルが画面外に出てクリックした時にゲームが背面に隠れてしまいます
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+    }
+
 
     private void Start()
     {
@@ -84,6 +107,8 @@ public class GameManager : MonoBehaviour
         for (int i = 3; i > 0; i--)
         {
             Debug.Log(i);
+
+            AudioManager.Instance.Play(SeName.CountDown); // カウントダウン音を再生
             gameUIManager.UpdateCountDownText(i);
             yield return new WaitForSeconds(1f);
         }
@@ -91,6 +116,8 @@ public class GameManager : MonoBehaviour
         gameUIManager.UpdateCountDownText(0); // カウントダウン終了後に0を表示
         // カウントダウン終了後、ゲーム状態をPlayingに変更
         currentGameState = GameState.Playing;
+
+        AudioManager.Instance.Play(SeName.GameStart); // ゲーム開始音を再生
 
         AudioManager.Instance.Play(BgmName.Game);
     }
@@ -154,6 +181,9 @@ public class GameManager : MonoBehaviour
 
         // リザルトパネルを開く
         gameUIManager.OpenResultPanel(ScoreManager.Instance.GetScores());
+
+        // ゲームオーバー後はカーソルを表示する
+        SetCursorState(true);
 
     }
 

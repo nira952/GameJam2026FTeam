@@ -55,14 +55,15 @@ namespace Rina_Script
             playerMove.Initialize(this, playerInputController, playerData.moveSpeed);
             playerThunder.Initialize(this, playerInputController, playerData.thunderCooldown);
             playerMegaThunder.Initialize(this, playerInputController);
-            playerAnimator.Initialize(playerInputController, playerHarvest);
+            playerAnimator.Initialize(this, playerInputController, playerHarvest);
 
             // 現在の稲力を設定データから取得
             currentRicePower = playerData.currentRicePower;
 
             // ゲーム開始時はカーソルを非表示＆画面中央にロック
-            SetCursorState(false);
+            GameManager.Instance.SetCursorState(false);
         }
+        
 
 
         public void ChangeState(PlayerState state)
@@ -72,11 +73,15 @@ namespace Rina_Script
             switch (currentState)
             {
                 case PlayerState.Move:
-                    SetCursorState(false);
+                    GameManager.Instance.SetCursorState(false);
+                    playerAnimator.SettingOrderLayer(4);
+                    playerUIManager.TransparentCanvasGroup(1f);
 
                     break;
                 case PlayerState.Thunder:
-                    SetCursorState(true);
+                    GameManager.Instance.SetCursorState(true);
+                    playerAnimator.SettingOrderLayer(7);
+                    playerUIManager.TransparentCanvasGroup(0.5f);
 
                     break;
                 case PlayerState.MegaThunder:
@@ -136,27 +141,5 @@ namespace Rina_Script
 
         }
 
-        /// <summary>
-        /// カーソルの表示状態を切り替えるメソッド
-        /// </summary>
-        /// <param name="visible">trueで表示、falseで非表示</param>
-        public void SetCursorState(bool visible)
-        {
-            // 1. 表示・非表示の切り替え
-            Cursor.visible = visible;
-
-            // 2. ロック状態の切り替え
-            if (visible)
-            {
-                // カーソルを表示するときは、自由に動かせるようにする
-                Cursor.lockState = CursorLockMode.None;
-            }
-            else
-            {
-                // カーソルを消すときは、画面中央に固定（ロック）する
-                // これをしないと、見えないカーソルが画面外に出てクリックした時にゲームが背面に隠れてしまいます
-                Cursor.lockState = CursorLockMode.Locked;
-            }
-        }
     }
 }
