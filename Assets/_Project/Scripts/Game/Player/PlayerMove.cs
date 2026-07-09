@@ -59,7 +59,7 @@ namespace Rina_Script
             if(vec2.x <= fenceX
             && vec2.x >= -fenceX
             && vec2.y <= fenceY
-            && vec2.y <= -fenceY) {return;}
+            && vec2.y >= -fenceY) {return;}
 
             if (vec2.x >= fenceX)
             {
