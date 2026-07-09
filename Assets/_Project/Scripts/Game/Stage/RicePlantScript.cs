@@ -20,8 +20,6 @@ public class RicePlantScript : MonoBehaviour
 
     [SerializeField] private Sprite[] growthSprites = new Sprite[5]; // 最初から要素数4で初期化
 
-    [SerializeField] private Color[] growthColors = new Color[5]; // 成長段階に応じた色を設定する配列
-
     [SerializeField] private GrowthStage currentStage = GrowthStage.Brown;
     private float growthTimer;
 
@@ -59,24 +57,6 @@ public class RicePlantScript : MonoBehaviour
     }
 
 
-    private void DebugUpdateAppearance()
-    {
-        if (growthColors == null || growthColors.Length == 0) return;
-
-       
-        int index = (int)currentStage;
-
-
-        if (index < growthColors.Length)
-        {
-            spriteRenderer.color = growthColors[index];
-        }
-            else
-            {
-                Debug.LogWarning($"{gameObject.name}: 成長段階 {currentStage} のColorが空っぽです！");
-            }
-        }
-    
 
 
     // 段階に応じて画像を切り替える
@@ -114,7 +94,7 @@ public class RicePlantScript : MonoBehaviour
         // 最初の段階（茶色）に戻る
         currentStage = GrowthStage.Brown;
         growthTimer = 0f;
-        DebugUpdateAppearance();
+        UpdateAppearance();
 
         MegaTaikoScript.Instance.AddRicePower();
 
