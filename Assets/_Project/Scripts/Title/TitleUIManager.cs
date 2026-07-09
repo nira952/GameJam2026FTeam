@@ -11,10 +11,16 @@ public class TitleUIManager : MonoBehaviour
     public Button startButton; // 開始ボタン(Managerに公開)
     public Button endButton;   // 終了ボタン(Managerに公開)
 
+    [SerializeField] private Button tutorialButton; // チュートリアルボタン
+    [SerializeField] private Button tutorialButotn2;
+
     [SerializeField] private Button openRankingButton; // ランキングボタン
     [SerializeField] private Button closeRankingButton;
 
     [SerializeField] private CanvasGroup rankingPanel; // ランキングパネル
+
+    [SerializeField] private CanvasGroup tutorialPanel1;
+    [SerializeField] private CanvasGroup tutorialPanel2;
 
     // ランキングは5位まで表示する
     [SerializeField] private TextMeshProUGUI[] rankingTexts = new TextMeshProUGUI[5];
@@ -28,6 +34,11 @@ public class TitleUIManager : MonoBehaviour
 
         // 閉じるボタンのイベントにCloseRankingPanelメソッドを登録
         closeRankingButton.onClick.AddListener(CloseRankingPanel);
+
+        tutorialButton.onClick.AddListener(OnTutorialButton);
+
+        tutorialButotn2.onClick.AddListener(OnTutorialButton2);
+
     }
 
     private void Start()
@@ -36,6 +47,14 @@ public class TitleUIManager : MonoBehaviour
         rankingPanel.alpha = 0;
         rankingPanel.interactable = false;
         rankingPanel.blocksRaycasts = false;
+
+        tutorialPanel1.alpha = 0;
+        tutorialPanel1.interactable = false;
+        tutorialPanel1.blocksRaycasts = false;
+
+        tutorialPanel2.alpha = 0;
+        tutorialPanel2.interactable = false;
+        tutorialPanel2.blocksRaycasts = false;
 
         // ランキングを更新する
         UpdateScores();
@@ -83,6 +102,28 @@ public class TitleUIManager : MonoBehaviour
         rankingPanel.DOFade(0, 0.5f);
         rankingPanel.interactable = false;
         rankingPanel.blocksRaycasts = false;
+    }
+
+
+    private void OnTutorialButton()
+    {
+        // チュートリアルパネルを表示する
+        tutorialPanel1.DOFade(1, 0.5f);
+        tutorialPanel1.interactable = true;
+        tutorialPanel1.blocksRaycasts = true;
+    }
+
+    private void OnTutorialButton2()
+    {
+        // チュートリアルパネルを非表示する
+        tutorialPanel1.DOFade(0, 0.5f);
+        tutorialPanel1.interactable = false;
+        tutorialPanel1.blocksRaycasts = false;
+
+        // チュートリアルパネルを表示する
+        tutorialPanel2.DOFade(1, 0.5f);
+        tutorialPanel2.interactable = true;
+        tutorialPanel2.blocksRaycasts = true;
     }
 
 
