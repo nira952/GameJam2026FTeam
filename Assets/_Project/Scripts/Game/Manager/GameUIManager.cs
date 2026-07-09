@@ -12,8 +12,33 @@ public class GameUIManager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI timerText; // タイマー表示用のテキスト
 
+    [SerializeField] private TextMeshProUGUI finishText; // ゲーム終了時のテキスト
+
     [SerializeField] private CanvasGroup resultPanel; // リザルトパネル
     [SerializeField] private TextMeshProUGUI[] resultScoreText = new TextMeshProUGUI[(int)ScoreType.Total]; // リザルトスコアテキスト
+
+
+    [SerializeField] private Image bossImage;
+
+    [Header("警告表示 0:上 1:下 2:左 3:右")]
+    [SerializeField] private Image[] warningImages = new Image[4]; // 警告画像の配列
+
+
+    private void Start()
+    {
+        // リザルトパネルを非表示にする
+        resultPanel.alpha = 0;
+        resultPanel.interactable = false;
+        resultPanel.blocksRaycasts = false;
+
+        if(SpawnManager.Instance != null)
+        {
+            SpawnManager.Instance.OnBossSpawned += OnBossSpawned;
+            SpawnManager.Instance.OnWaveChanged += OnWaveChanged;
+
+        }
+    }
+
 
 
     /// <summary>
@@ -45,6 +70,15 @@ public class GameUIManager : MonoBehaviour
     }
 
 
+    public void ShowFinishText()
+    {
+        finishText.DOFade(1, 0.5f).OnComplete(() =>
+        {
+            finishText.DOFade(0, 0.5f).SetDelay(1f); ;
+        });
+
+    }
+
     /// <summary>
     /// リザルトパネルを開く
     /// </summary>
@@ -61,4 +95,25 @@ public class GameUIManager : MonoBehaviour
         resultPanel.interactable = true;
         resultPanel.blocksRaycasts = true;
     }
+
+    private void OnBossSpawned()
+    {
+
+        bossImage.DOFade(1, 0.5f).SetLoops(6, LoopType.Yoyo);
+
+    }
+
+    private void OnWaveChanged(WaveDirection direction)
+    {
+         // 警告表示を更新
+         // イメージを二回フェードさせる
+         int index = (int)direction;
+
+        warningImages[index].DOFade(1, 0.5f).SetLoops(4, LoopType.Yoyo);
+
+        AudioManager.Instance.Play(SeName.Alert);
+
+    }
+
+
 }

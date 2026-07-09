@@ -1,20 +1,17 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 using Unity.Cinemachine;
-using Unity.Cinemachine.Editor;
-using Unity.Cinemachine.TargetTracking;
-using Rina_Script;
+
 
 namespace Simizu
 {
     public enum CameraPos
     {
-        LeftUpper,      // ¶ã
-        LeftLower,      // ¶‰º
-        RightUpper,     // ‰Eã
-        RightLower,     // ‰E‰º
-        Center,         // ’†‰›
-        Player,         // ƒvƒŒƒCƒ„[
+        LeftUpper,      // å·¦ä¸Š
+        LeftLower,      // å·¦ä¸‹
+        RightUpper,     // å³ä¸Š
+        RightLower,     // å³ä¸‹
+        Center,         // ä¸­å¤®
+        Player,         // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼
     }
 
 
@@ -33,18 +30,20 @@ namespace Simizu
             Instance = this;
         }
 
-        // ƒvƒŒƒCƒ„[‚ğ’Ç]‚·‚éƒJƒƒ‰
+        [SerializeField] private Camera mainCamera;
+
+        // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’è¿½å¾“ã™ã‚‹ã‚«ãƒ¡ãƒ©
         [SerializeField] public CinemachineCamera pCamera;
 
-        // ‘¼‚ÌƒJƒƒ‰
+        // ä»–ã®ã‚«ãƒ¡ãƒ©
         [SerializeField] public CinemachineCamera[] nCameras;
 
         private CinemachineCamera currentCamera;
 
-        // ”ñ‘I‘ğ‚Ìƒo[ƒ`ƒƒƒ‹ƒJƒƒ‰‚Ì—Dæ“x
+        // éé¸æŠæ™‚ã®ãƒãƒ¼ãƒãƒ£ãƒ«ã‚«ãƒ¡ãƒ©ã®å„ªå…ˆåº¦
         [SerializeField] private int unselectedPriority = 0;
 
-        // ‘I‘ğ‚Ìƒo[ƒ`ƒƒƒ‹ƒJƒƒ‰‚Ì—Dæ“x
+        // é¸æŠæ™‚ã®ãƒãƒ¼ãƒãƒ£ãƒ«ã‚«ãƒ¡ãƒ©ã®å„ªå…ˆåº¦
         [SerializeField] private int selectedPriority = 10;
 
         private void Start()
@@ -67,5 +66,11 @@ namespace Simizu
             }
             currentCamera.Priority = selectedPriority;
         }
+
+        public Camera GetMainCamera()
+        {
+            return mainCamera;
+        }
+
     }
 }

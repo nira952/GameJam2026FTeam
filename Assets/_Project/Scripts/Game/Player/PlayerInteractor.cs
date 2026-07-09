@@ -9,36 +9,46 @@ namespace Rina_Script
     {
         private PlayerRoot playerRoot;
         private PlayerInputController inputController;
+        private PlayerUIManager uiManager;
 
         private IInteractable currentInteractable;
 
-        public void Initialize(PlayerRoot playerRoot, PlayerInputController inputController)
+        public void Initialize(PlayerRoot playerRoot, PlayerInputController inputController,PlayerUIManager uiManager)
         {
             this.playerRoot = playerRoot;
             this.inputController = inputController;
+            this.uiManager = uiManager;
 
-            if (inputController != null)
+            if (inputController == null)
             {
-                inputController.OnInteractPressed += PerformInteract;
+                Debug.LogError("PlayerInteractor: InputController is null.");
+                return;
             }
+
+                inputController.OnInteractPressed += PerformInteract;
+            
         }
 
 
-        private void PerformInteract()
+        private void PerformInteract(bool isPressed)
         {
             // 目の前にインタラクト対象がないなら何もしない
             if (currentInteractable == null) return;
 
+            if (!isPressed) return;
 
+            // ステートを取得
+            PlayerState state = currentInteractable.Interact(transform.parent.transform);
+
+            if (state == PlayerState.Move) { CameraManager.Instance.ResetCamera(); }
+
+            playerRoot.ChangeState(state);
+
+            return;
+            
             // 現在のステートがMove状態の場合のみ、ステートを切り替える
             if (playerRoot.CurrentState == PlayerState.Move)
             {
-                // ステートを取得
-                PlayerState state = currentInteractable.Interact();
-
-                if (state == PlayerState.Move) { CameraManager.Instance.ResetCamera(); }
-
-                playerRoot.ChangeState(state);
             }
             else
             {
@@ -55,6 +65,20 @@ namespace Rina_Script
             {
                 currentInteractable = interactable;
                 Debug.Log($"近くにターゲットを検知: {currentInteractable.GetInteractPrompt()}");
+
+                if (playerRoot.CurrentState == PlayerState.Move)
+                {
+                    // UIにインタラクト可能なオブジェクトがあることを通知
+                    uiManager.UpdateInteractText(currentInteractable.GetInteractPrompt(), false);
+                }
+                else if (playerRoot.CurrentState == PlayerState.Thunder || playerRoot.CurrentState == PlayerState.MegaThunder)
+                {
+                    // UIにインタラクト可能なオブジェクトがあることを通知
+                    uiManager.UpdateInteractText(currentInteractable.GetInteractPrompt(), true);
+
+                }
+
+
             }
         }
 
@@ -65,6 +89,7 @@ namespace Rina_Script
             {
                 if (currentInteractable == interactable)
                 {
+                    uiManager.HideInteractText();
                     currentInteractable = null;
                 }
             }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 namespace Rina_Script
 {
@@ -7,6 +8,9 @@ namespace Rina_Script
     public class PlayerHarvest : MonoBehaviour
     {
         private PlayerRoot playerRoot;
+
+        public event Action OnHarvestAction; //収穫されたことを外部に知らせるイベント
+
 
         public void Initialize(PlayerRoot playerRoot)
         {
@@ -24,6 +28,7 @@ namespace Rina_Script
                 if (rice.Harvest())
                 {
                     playerRoot.AddRicePower(); // プレイヤー稲力を増加させる関数を呼ぶ
+                    OnHarvestAction?.Invoke(); // 収穫イベントを発火
                 }
             }
         }
