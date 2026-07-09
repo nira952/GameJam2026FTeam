@@ -44,17 +44,7 @@ namespace Rina_Script
 
             playerRoot.ChangeState(state);
 
-            return;
-            
-            // 現在のステートがMove状態の場合のみ、ステートを切り替える
-            if (playerRoot.CurrentState == PlayerState.Move)
-            {
-            }
-            else
-            {
-                CameraManager.Instance.ResetCamera();
-                playerRoot.ChangeState(PlayerState.Move);
-            }
+
         }
 
 

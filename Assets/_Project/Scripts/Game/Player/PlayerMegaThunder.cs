@@ -18,6 +18,8 @@ public class PlayerMegaThunder : MonoBehaviour
 
     [SerializeField] private int maxThunderCount = 0;
 
+
+
     public void Initialize(PlayerRoot playerRoot, PlayerInputController inputController)
     {
         this.playerRoot = playerRoot;
@@ -66,6 +68,10 @@ public class PlayerMegaThunder : MonoBehaviour
     private void ExecuteThunderAttack(Vector3 direction)
     {
         Debug.Log($"雷撃を実行しました。方向: {direction}");
+
+        AudioManager.Instance.Play(SeName.Thunder);
+        AudioManager.Instance.Play(SeName.Don);
+
 
         // 雷撃の回数をカウント
         thunderCount++;

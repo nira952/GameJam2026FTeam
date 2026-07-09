@@ -79,6 +79,7 @@ public class GameUIManager : MonoBehaviour
 
     }
 
+
     /// <summary>
     /// リザルトパネルを開く
     /// </summary>

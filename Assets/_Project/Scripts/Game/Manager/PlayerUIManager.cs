@@ -1,3 +1,4 @@
+using DG.Tweening;
 using Rina_Script;
 using TMPro;
 using UnityEngine;
@@ -8,6 +9,8 @@ public class PlayerUIManager : MonoBehaviour
 {
     private PlayerRoot playerRoot; // プレイヤーのルートオブジェクトへの参照
     private PlayerInputController inputController; // プレイヤーの入力コントローラーへの参照
+
+    [SerializeField] private CanvasGroup playerCanvasGroup; // プレイヤーのUIを管理するCanvasGroup
 
     [SerializeField] private Slider ricePowerSlider; // 米の力スライダー
 
@@ -94,6 +97,11 @@ public class PlayerUIManager : MonoBehaviour
             leftMouseKeyParent.SetActive(true);
         }
 
+    }
+
+    public void TransparentCanvasGroup(float alpha)
+    {
+        playerCanvasGroup.DOFade(alpha, 0.5f);
     }
 
     public void HideInteractText()

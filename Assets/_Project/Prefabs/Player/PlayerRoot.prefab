@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -8164595586983387892, guid: aedb7f34bc2613e4e9c465b265ceae42, type: 2}
+  - {fileID: 2100000, guid: dbb24a10aa7745e49ad31f24c42f2f75, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -109,7 +109,7 @@ MonoBehaviour:
   m_text: "\u30EF\u30FC\u30D7"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: aedb7f34bc2613e4e9c465b265ceae42, type: 2}
-  m_sharedMaterial: {fileID: -8164595586983387892, guid: aedb7f34bc2613e4e9c465b265ceae42, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: dbb24a10aa7745e49ad31f24c42f2f75, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -290,7 +290,7 @@ MonoBehaviour:
   m_text: "\u53E9\u304F"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: aedb7f34bc2613e4e9c465b265ceae42, type: 2}
-  m_sharedMaterial: {fileID: -8164595586983387892, guid: aedb7f34bc2613e4e9c465b265ceae42, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: dbb24a10aa7745e49ad31f24c42f2f75, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -425,6 +425,7 @@ MonoBehaviour:
   playerAnimator: {fileID: 9000384327560855912}
   playerData: {fileID: 11400000, guid: da91a2560b30f704f903c75d7a40aa42, type: 2}
   currentState: 0
+  currentRicePower: 0
   isDebugMode: 0
 --- !u!114 &593647141707827677
 MonoBehaviour:
