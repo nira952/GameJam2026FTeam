@@ -1,11 +1,8 @@
+using Simizu;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace Rina_Script
 {
-    
-
-
     // プレイヤーの雷撃処理を担当するスクリプト
     public class PlayerThunder : MonoBehaviour
     {
@@ -31,10 +28,16 @@ namespace Rina_Script
 
         private void SettingActions()
         {
+            if (inputController == null)
+            {
+                Debug.LogError("PlayerInteractor: InputController is null.");
+                return;
+            }
+
             inputController.OnThunderPressed += Thunder;
         }
 
-        private void Thunder(Vector3 direction)
+        private void Thunder(Vector3 direction, bool isPressed)
         {
             // ゲームの状態がPlayingでない場合は雷撃できない
             if (GameManager.Instance.CurrentGameState != GameState.Playing) { return; }
@@ -44,6 +47,9 @@ namespace Rina_Script
 
             // 雷撃のクールダウン中は雷撃できない
             if (!canThunder) { return; }
+
+            // 入力時のみ処理する
+            if (!isPressed) { return; }
 
             // プレイヤーが稲パワーを持っているか確認
             if (!playerRoot.CanThunder())
@@ -72,8 +78,10 @@ namespace Rina_Script
         {
             Debug.Log($"雷撃を実行しました。方向: {direction}");
 
-            direction.z = -Camera.main.transform.position.z;
-            Vector3 worldPos = Camera.main.ScreenToWorldPoint(direction);
+            Camera mainCamera = CameraManager.Instance.GetMainCamera();
+
+            direction.z = -mainCamera.transform.position.z;
+            Vector3 worldPos = mainCamera.ScreenToWorldPoint(direction);
             Debug.Log($"World position{worldPos}");
 
             GameObject go =  Instantiate(thunder, worldPos, Quaternion.identity);

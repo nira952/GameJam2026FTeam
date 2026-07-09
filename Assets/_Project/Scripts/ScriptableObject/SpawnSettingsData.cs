@@ -3,17 +3,27 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewSpawnSettings", menuName = "ScriptableObjects/SpawnSettings", order = 1)]
 public class SpawnSettingsData : ScriptableObject
 {
+    [Header("--- 各敵のスポーン間隔設定（秒） ---")]
+    [Tooltip("DefaultEnemyの出現間隔")]
+    public float defaultEnemyInterval = 5f;
+
+    [Tooltip("ZigZagEnemyの出現間隔")]
+    public float zigZagEnemyInterval = 20f;
+
+    [Tooltip("BossEnemyの出現間隔")]
+    public float bossEnemyInterval = 60f;
+
     [Header("--- スポーン速度（難易度の上昇時間） ---")]
     [Min(0.01f)]
-    [Tooltip("【初期の難易度】ゲーム開始直後のスポーン間隔（秒）。値が小さいほど敵がドバドバ出ます")]
-    public float initialSpawnInterval = 2.0f;
+    [Tooltip("【初期の難易度】ベース間隔にかける倍率。基本は 1.0 に設定してください")]
+    public float initialSpawnInterval = 1.0f;
 
     [Min(0.01f)]
-    [Tooltip("【最大の難易度】最高速に達したときのスポーン間隔（秒）。これ以上は早くならず、この速度が維持されます")]
-    public float minSpawnInterval = 0.3f;
+    [Tooltip("【最大の難易度】最高速に達したときの倍率。例えば 0.5 なら指定の半分の時間（2倍の速度）で出現します")]
+    public float minSpawnInterval = 0.5f;
 
     [Min(1f)]
-    [Tooltip("【難易度上昇の猶予時間】ゲーム開始から最高速（minSpawnInterval）に達するまでに何秒かけるか（例: 300秒 = 5分）")]
+    [Tooltip("【難易度上昇の猶予時間】ゲーム開始から最高速（minSpawnInterval）に達するまでに何秒かけるか")]
     public float timeToReachMaxSpeed = 300f;
 
     [Header("--- 配置・出現エリアの設定 ---")]

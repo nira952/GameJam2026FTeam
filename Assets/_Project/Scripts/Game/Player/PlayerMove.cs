@@ -58,8 +58,6 @@ namespace Rina_Script
             // プレイヤーの状態がMoveの場合にのみ移動可能
             if (playerRoot.CurrentState != PlayerState.Move) { return; }
 
-            Debug.Log($"ChangeDirection: {vector}");
-
             // プレイヤーの移動方向を更新
             currentDirection = vector.normalized;
         }

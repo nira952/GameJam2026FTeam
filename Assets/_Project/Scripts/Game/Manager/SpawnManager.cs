@@ -1,6 +1,16 @@
-using System.Collections.Generic; // 必須：Listを使うために追加
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
+
+
+public enum WaveDirection
+{
+    Up = 0,
+    Down = 1,
+    Left = 2,
+    Right = 3
+}
 
 public class SpawnManager : MonoBehaviour
 {
@@ -10,32 +20,34 @@ public class SpawnManager : MonoBehaviour
 
     private void Awake()
     {
-        // すでにインスタンスが存在しているかチェック
         if (Instance != null && Instance != this)
         {
-            // 重複している場合は自身を破棄
             Destroy(gameObject);
             return;
         }
-
-        // インスタンスを自身に設定
         Instance = this;
     }
     #endregion
 
 
-    private enum Direction
-    {
-        Up = 0,
-        Down = 1,
-        Left = 2,
-        Right = 3
-    }
+    // --- コールバックイベント ---
+    /// <summary>
+    /// BossEnemyが生成された瞬間に呼ばれるコールバック
+    /// </summary>
+    public event Action OnBossSpawned;
 
-    [Header("--- 必須設定 ---")]
-    [Tooltip("出現させる敵のプレハブ")]
-    [SerializeField] private BaseEnemy enemyPrefab;
+    /// <summary>
+    /// 波（ウェーブ）が切り替わった瞬間に呼ばれるコールバック（引数: 新しい注目方向）
+    /// </summary>
+    public event Action<WaveDirection> OnWaveChanged;
 
+
+    [Header("--- 必須設定（敵プレハブ） ---")]
+    [SerializeField] private BaseEnemy defaultEnemyPrefab;
+    [SerializeField] private BaseEnemy zigZagEnemyPrefab;
+    [SerializeField] private BaseEnemy bossEnemyPrefab;
+
+    [Space(10)]
     [Tooltip("ゲームの中心となるオブジェクト")]
     [SerializeField] private Transform fenceObject;
 
@@ -48,49 +60,42 @@ public class SpawnManager : MonoBehaviour
 
     [Header("--- メモリ管理（オブジェクトプール） ---")]
     [Min(1)]
-    [Tooltip("ゲーム開始時にあらかじめメモリ上に用意しておく敵の数")]
+    [Tooltip("ゲーム開始時にあらかじめ用意しておく各敵の数")]
     [SerializeField] private int defaultCapacity = 20;
 
     [Min(1)]
-    [Tooltip("プール内に溜めておける敵の最大数")]
+    [Tooltip("各プール内に溜めておける敵の最大数")]
     [SerializeField] private int maxPoolSize = 50;
 
     // --- 内部処理用変数 ---
-    private IObjectPool<BaseEnemy> enemyPool;
-    private float spawnTimer;
-    private float currentSpawnInterval;
+    private IObjectPool<BaseEnemy> defaultEnemyPool;
+    private IObjectPool<BaseEnemy> zigZagEnemyPool;
+    private IObjectPool<BaseEnemy> bossEnemyPool;
+
+    private float defaultEnemyTimer;
+    private float zigZagEnemyTimer;
+    private float bossEnemyTimer;
+
+    private float currentSpawnMultiplier = 1.0f;
     private float elapsedTime;
 
-    private Direction currentFavoriteDirection;
+    private WaveDirection currentFavoriteDirection;
     private float waveDuration;
     private float waveTimer;
 
-    // --- 稼働中の敵を管理するリスト ---
     private readonly List<BaseEnemy> activeEnemies = new List<BaseEnemy>();
 
-    /// <summary>
-    /// 現在稼働している敵の読み取り専用リスト（外部参照用）
-    /// </summary>
     public IReadOnlyList<BaseEnemy> ActiveEnemies => activeEnemies;
 
     public Vector3 GetRandomActiveEnemiePos()
     {
-        // 稼働中の敵がいない場合は Vector3.zero を返す
-        if (activeEnemies.Count == 0)
-        {
-            return Vector3.zero;
-        }
-
-        // ランダムに敵を選択してその位置を返す
-        int randomIndex = Random.Range(0, activeEnemies.Count);
-
+        if (activeEnemies.Count == 0) return Vector3.zero;
+        int randomIndex = UnityEngine.Random.Range(0, activeEnemies.Count);
         return activeEnemies[randomIndex].transform.position;
     }
 
-
     private void Start()
     {
-        // SOがセットされていなかったらエラーを出す
         if (spawnSettings == null)
         {
             Debug.LogError($"{gameObject.name}: SpawnSettingsData がインスペクターにセットされていません！");
@@ -98,27 +103,13 @@ public class SpawnManager : MonoBehaviour
             return;
         }
 
-        if (poolParent == null)
-        {
-            poolParent = new GameObject("EnemyPool").transform;
-        }
+        if (poolParent == null) poolParent = new GameObject("EnemyPool").transform;
 
-        if (spawnSettings.minSpawnInterval > spawnSettings.initialSpawnInterval)
-        {
-            Debug.LogWarning("SpawnManager: 最大難易度の間隔が初期間隔より大きく設定されていました。自動的に制限をかけます。");
-        }
+        defaultEnemyPool = CreateEnemyPool(defaultEnemyPrefab);
+        zigZagEnemyPool = CreateEnemyPool(zigZagEnemyPrefab);
+        bossEnemyPool = CreateEnemyPool(bossEnemyPrefab);
 
-        enemyPool = new ObjectPool<BaseEnemy>(
-            createFunc: OnCreateEnemy,
-            actionOnGet: OnGetEnemy,
-            actionOnRelease: OnReleaseEnemy,
-            actionOnDestroy: OnDestroyEnemy,
-            collectionCheck: true,
-            defaultCapacity: defaultCapacity,
-            maxSize: maxPoolSize
-        );
-
-        currentSpawnInterval = spawnSettings.initialSpawnInterval;
+        currentSpawnMultiplier = spawnSettings.initialSpawnInterval;
 
         SetupNextWave();
     }
@@ -135,12 +126,10 @@ public class SpawnManager : MonoBehaviour
             SetupNextWave();
         }
 
-        spawnTimer += Time.deltaTime;
-        if (spawnTimer >= currentSpawnInterval)
-        {
-            SpawnEnemy();
-            spawnTimer = 0f;
-        }
+        // 第4引数（isBoss）を BossEnemy の時だけ true にする
+        HandleSpawning(ref defaultEnemyTimer, spawnSettings.defaultEnemyInterval, defaultEnemyPool, false);
+        HandleSpawning(ref zigZagEnemyTimer, spawnSettings.zigZagEnemyInterval, zigZagEnemyPool, false);
+        HandleSpawning(ref bossEnemyTimer, spawnSettings.bossEnemyInterval, bossEnemyPool, true);
     }
 
     private void UpdateSpawnSpeed()
@@ -148,67 +137,113 @@ public class SpawnManager : MonoBehaviour
         elapsedTime += Time.deltaTime;
         float progress = Mathf.Clamp01(elapsedTime / spawnSettings.timeToReachMaxSpeed);
 
-        float minInterval = Mathf.Min(spawnSettings.initialSpawnInterval, spawnSettings.minSpawnInterval);
-        currentSpawnInterval = Mathf.Lerp(spawnSettings.initialSpawnInterval, minInterval, progress);
+        float minMultiplier = Mathf.Min(spawnSettings.initialSpawnInterval, spawnSettings.minSpawnInterval);
+        currentSpawnMultiplier = Mathf.Lerp(spawnSettings.initialSpawnInterval, minMultiplier, progress);
+    }
+
+    /// <summary>
+    /// 指定された敵のタイマーを更新し、間隔を満たせばスポーンさせる
+    /// </summary>
+    private void HandleSpawning(ref float timer, float baseInterval, IObjectPool<BaseEnemy> pool, bool isBoss)
+    {
+        timer += Time.deltaTime;
+        float currentInterval = baseInterval * currentSpawnMultiplier;
+
+        if (timer >= currentInterval)
+        {
+            SpawnEnemy(pool, isBoss);
+            timer = 0f;
+        }
     }
 
     private void SetupNextWave()
     {
-        currentFavoriteDirection = (Direction)Random.Range(0, 4);
+        currentFavoriteDirection = (WaveDirection)UnityEngine.Random.Range(0, 4);
 
         float minWave = spawnSettings.minWaveDuration;
         float maxWave = Mathf.Max(spawnSettings.minWaveDuration, spawnSettings.maxWaveDuration);
-        waveDuration = Random.Range(minWave, maxWave);
+        waveDuration = UnityEngine.Random.Range(minWave, maxWave);
 
         waveTimer = 0f;
 
+        // 波切り替えコールバックの実行（登録されたメソッドがあれば通知する）
+        OnWaveChanged?.Invoke(currentFavoriteDirection);
+
         string[] dirNames = { "上", "下", "左", "右" };
-        Debug.Log($"【波の切り替え】次の {waveDuration:F1} 秒間は「{dirNames[(int)currentFavoriteDirection]}」から！ (現在の間隔: {currentSpawnInterval:F2}秒)");
+        Debug.Log($"【波の切り替え】次の {waveDuration:F1} 秒間は「{dirNames[(int)currentFavoriteDirection]}」から！ (現在の倍率: x{currentSpawnMultiplier:F2})");
     }
 
-    private void SpawnEnemy()
+    /// <summary>
+    /// 指定されたプールから敵を取り出してスポーンさせる
+    /// </summary>
+    private void SpawnEnemy(IObjectPool<BaseEnemy> pool, bool isBoss)
     {
-        BaseEnemy enemy = enemyPool.Get();
-        enemy.transform.position = CalculateSpawnPosition();
-    }
+        BaseEnemy enemy = pool.Get();
 
-    private Vector3 CalculateSpawnPosition()
-    {
-        Direction finalDirection;
-        if (Random.value < spawnSettings.favoriteDirectionChance)
+        if (isBoss)
         {
-            finalDirection = currentFavoriteDirection;
+            // ボスの場合は方向を「Up（上）」に強制指定して位置計算を行う
+            enemy.transform.position = CalculateSpawnPosition(WaveDirection.Up);
+
+            // ボス生成コールバックの実行
+            OnBossSpawned?.Invoke();
         }
         else
         {
-            Direction[] otherDirections = new Direction[3];
-            int index = 0;
-            for (int i = 0; i < 4; i++)
+            // 通常の敵はウェーブ等のランダム計算に従う
+            enemy.transform.position = CalculateSpawnPosition(null);
+        }
+    }
+
+    /// <summary>
+    /// スポーン位置を計算する。overrideDirectionが指定されている場合はその方向を固定で使用する。
+    /// </summary>
+    private Vector3 CalculateSpawnPosition(WaveDirection? overrideDirection)
+    {
+        WaveDirection finalDirection;
+
+        // 特殊な方向指定（ボスの「上」など）があればそれを使い、なければ通常計算
+        if (overrideDirection.HasValue)
+        {
+            finalDirection = overrideDirection.Value;
+        }
+        else
+        {
+            if (UnityEngine.Random.value < spawnSettings.favoriteDirectionChance)
             {
-                if (i != (int)currentFavoriteDirection)
-                {
-                    otherDirections[index] = (Direction)i;
-                    index++;
-                }
+                finalDirection = currentFavoriteDirection;
             }
-            finalDirection = otherDirections[Random.Range(0, 3)];
+            else
+            {
+                WaveDirection[] otherDirections = new WaveDirection[3];
+                int index = 0;
+                for (int i = 0; i < 4; i++)
+                {
+                    if (i != (int)currentFavoriteDirection)
+                    {
+                        otherDirections[index] = (WaveDirection)i;
+                        index++;
+                    }
+                }
+                finalDirection = otherDirections[UnityEngine.Random.Range(0, 3)];
+            }
         }
 
-        float variance = Random.Range(-spawnSettings.positionVariance, spawnSettings.positionVariance);
+        float variance = UnityEngine.Random.Range(-spawnSettings.positionVariance, spawnSettings.positionVariance);
         Vector3 spawnPos = Vector3.zero;
 
         switch (finalDirection)
         {
-            case Direction.Up:
+            case WaveDirection.Up:
                 spawnPos = new Vector3(variance, spawnSettings.spawnDistance, 0f);
                 break;
-            case Direction.Down:
+            case WaveDirection.Down:
                 spawnPos = new Vector3(variance, -spawnSettings.spawnDistance, 0f);
                 break;
-            case Direction.Left:
+            case WaveDirection.Left:
                 spawnPos = new Vector3(-spawnSettings.spawnDistance, variance, 0f);
                 break;
-            case Direction.Right:
+            case WaveDirection.Right:
                 spawnPos = new Vector3(spawnSettings.spawnDistance, variance, 0f);
                 break;
         }
@@ -221,13 +256,27 @@ public class SpawnManager : MonoBehaviour
         return spawnPos;
     }
 
-    private BaseEnemy OnCreateEnemy()
+    private IObjectPool<BaseEnemy> CreateEnemyPool(BaseEnemy prefab)
     {
-        BaseEnemy enemy = Instantiate(enemyPrefab, poolParent);
-        enemy.SetPool(enemyPool);
-        enemy.SetTarget(fenceObject);
+        IObjectPool<BaseEnemy> pool = null;
 
-        return enemy;
+        pool = new ObjectPool<BaseEnemy>(
+            createFunc: () =>
+            {
+                BaseEnemy enemy = Instantiate(prefab, poolParent);
+                enemy.SetPool(pool);
+                enemy.SetTarget(fenceObject);
+                return enemy;
+            },
+            actionOnGet: OnGetEnemy,
+            actionOnRelease: OnReleaseEnemy,
+            actionOnDestroy: OnDestroyEnemy,
+            collectionCheck: true,
+            defaultCapacity: defaultCapacity,
+            maxSize: maxPoolSize
+        );
+
+        return pool;
     }
 
     private void OnGetEnemy(BaseEnemy enemy)
@@ -235,7 +284,6 @@ public class SpawnManager : MonoBehaviour
         enemy.gameObject.SetActive(true);
         enemy.OnSpawn();
 
-        // リストに追加
         if (!activeEnemies.Contains(enemy))
         {
             activeEnemies.Add(enemy);
@@ -245,14 +293,11 @@ public class SpawnManager : MonoBehaviour
     private void OnReleaseEnemy(BaseEnemy enemy)
     {
         enemy.gameObject.SetActive(false);
-
-        // リストから削除
         activeEnemies.Remove(enemy);
     }
 
     private void OnDestroyEnemy(BaseEnemy enemy)
     {
-        // 万が一、アクティブなまま破棄された場合の安全策
         activeEnemies.Remove(enemy);
         Destroy(enemy.gameObject);
     }

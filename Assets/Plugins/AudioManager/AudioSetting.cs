@@ -15,9 +15,13 @@ public enum BgmName
 // 必要なSEを入力
 public enum SeName
 {
-    Damage,
-    Attack,
-    Button,
+    Alert,
+    ButtonClick,
+    CountDown,
+    Don,
+    GameFinish,
+    GameStart,
+    Thunder,
     num,
 }
 

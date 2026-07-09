@@ -138,8 +138,21 @@ public class GameManager : MonoBehaviour
             ScoreManager.Instance.RecordScore();
         }
 
+        AudioManager.Instance.Play(SeName.GameFinish);
+
+        gameUIManager.ShowFinishText(); // Finishテキストを表示する処理を呼び出す
+
+        StartCoroutine(ResultGame()); // リザルトパネルを開く処理をコルーチンで呼び出す
+
+    }
+
+    private IEnumerator ResultGame()
+    {
+        yield return new WaitForSeconds(1f);
+
         // リザルトパネルを開く
         gameUIManager.OpenResultPanel(ScoreManager.Instance.GetScores());
+
     }
 
     private void RetryGame()

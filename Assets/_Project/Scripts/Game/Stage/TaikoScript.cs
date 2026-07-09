@@ -1,25 +1,30 @@
 using Rina_Script;
-using Simizu;
 using UnityEngine;
 
 
 [RequireComponent(typeof(Collider2D))]
 public class TaikoScript : MonoBehaviour, IInteractable
 {
-    [SerializeField] private CameraPos cameraPos; 
+    [SerializeField] private WorpPoint worpPoint;
+
+    public PlayerState CurrentState => PlayerState.Move;
 
     public string GetInteractPrompt()
     {
-        return "叩く";
+        return "戻る";
     }
 
-    public PlayerState Interact()
+    public PlayerState Interact(Transform targetTransform)
     {
-        Debug.Log("太鼓モードON！");
+        Debug.Log("元の位置に戻る！");
 
-        //TODO : ここにカメラ移動の処理を追加する
-        CameraManager.Instance.ChangeCamera(cameraPos);
+        if (worpPoint != null)
+        {
+            targetTransform.position = worpPoint.transform.position;
+        }
 
-        return PlayerState.Thunder;
+
+
+        return CurrentState;
     }
 }

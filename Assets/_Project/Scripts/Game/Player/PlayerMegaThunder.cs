@@ -28,10 +28,16 @@ public class PlayerMegaThunder : MonoBehaviour
 
     private void SettingActions()
     {
+        if (inputController == null)
+        {
+            Debug.LogError("PlayerInteractor: InputController is null.");
+            return;
+        }
+
         inputController.OnThunderPressed += MegaThunder;
     }
 
-    private void MegaThunder(Vector3 direction)
+    private void MegaThunder(Vector3 direction, bool isPressed)
     {
         // ゲームの状態がPlayingでない場合は雷撃できない
         if (GameManager.Instance.CurrentGameState != GameState.Playing) { return; }
@@ -41,6 +47,8 @@ public class PlayerMegaThunder : MonoBehaviour
 
         // MegaTaikoモードが有効でない場合は雷撃できない
         if (MegaTaikoScript.Instance.IsMegaTaikoModeActive == false) { return; }
+
+        if (!isPressed) { return; }
 
         Vector3 enemyPos = SpawnManager.Instance.GetRandomActiveEnemiePos(); 
 

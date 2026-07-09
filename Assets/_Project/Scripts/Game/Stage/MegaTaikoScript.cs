@@ -36,6 +36,7 @@ public class MegaTaikoScript : MonoBehaviour, IInteractable
 
     public bool IsMegaTaikoModeActive => isMegaTaikoModeActive;
 
+    public PlayerState CurrentState => PlayerState.MegaThunder;
 
     private void Start()
     {
@@ -62,7 +63,7 @@ public class MegaTaikoScript : MonoBehaviour, IInteractable
         return "叩く";
     }
 
-    public PlayerState Interact()
+    public PlayerState Interact(Transform targetTransform)
     {
         // すでに有効なら処理しない
         if (isMegaTaikoModeActive) { return PlayerState.MegaThunder; }
@@ -82,7 +83,7 @@ public class MegaTaikoScript : MonoBehaviour, IInteractable
 
         CameraManager.Instance.ChangeCamera(CameraPos.Center);
 
-        return PlayerState.MegaThunder; // メガ雷撃モードに遷移する
+        return CurrentState; // メガ雷撃モードに遷移する
     }
 
     private void Update()
