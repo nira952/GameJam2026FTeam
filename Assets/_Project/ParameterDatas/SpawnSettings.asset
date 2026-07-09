@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2b17f7df3fee994aa89b77ff3d9ac9c, type: 3}
   m_Name: SpawnSettings
   m_EditorClassIdentifier: Assembly-CSharp::SpawnSettingsData
-  defaultEnemyInterval: 3
+  defaultEnemyInterval: 2
   zigZagEnemyInterval: 4
   bossEnemyInterval: 20
   initialSpawnInterval: 2

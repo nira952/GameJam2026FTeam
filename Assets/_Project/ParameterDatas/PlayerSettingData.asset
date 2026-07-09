@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99c5e18ce323db142a98f163895a8ea6, type: 3}
   m_Name: PlayerSettingData
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSettingData
-  maxRicePower: 10
-  currentRicePower: 10
+  maxRicePower: 100
+  currentRicePower: 50
   ricePowerIncreaseAmount: 1
-  ricePowerDecreaseAmount: 1
+  ricePowerDecreaseAmount: 10
   moveSpeed: 5
   thunderCooldown: 0.3

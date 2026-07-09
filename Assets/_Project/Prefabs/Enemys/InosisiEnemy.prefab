@@ -107,8 +107,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bdd12694009c594a95fe805280616a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DefaultEnemy
-  moveSpeed: 0.1
-  maxHp: 1
+  moveSpeed: 0.4
+  maxHp: 2
 --- !u!58 &1484601432787938101
 CircleCollider2D:
   m_ObjectHideFlags: 0
