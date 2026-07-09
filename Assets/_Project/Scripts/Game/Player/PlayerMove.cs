@@ -53,8 +53,8 @@ namespace Rina_Script
 
             // フェンスの範囲内のみ移動可能にする
             Vector2 vec2 = transform.position;
-            float fenceX = fence.transform.lossyScale.x / 2;
-            float fenceY = fence.transform.lossyScale.y / 2;
+            float fenceX = fence.transform.lossyScale.x * 4 / 2;
+            float fenceY = fence.transform.lossyScale.y ;
 
             if(vec2.x <= fenceX
             && vec2.x >= -fenceX
