@@ -18,6 +18,8 @@ public class TitleManager : MonoBehaviour
             return;
         }
 
+        AudioManager.Instance.Play(BgmName.Title);
+
         // ボタンのリスナーを追加
         ButtonAddListener();
     }

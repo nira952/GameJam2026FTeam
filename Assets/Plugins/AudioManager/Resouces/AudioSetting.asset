@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp-firstpass::AudioSetting
   bgmList:
   - name: Title
-    clip: {fileID: 0}
-    volume: 1
+    clip: {fileID: 8300000, guid: c902d1c54c9c7694d879fb6180292a37, type: 3}
+    volume: 0.5
   - name: Game
-    clip: {fileID: 0}
-    volume: 1
+    clip: {fileID: 8300000, guid: 5963b0df0f114074b8b8b56dfd89014e, type: 3}
+    volume: 0.5
   seList:
   - name: Alert
     clip: {fileID: 8300000, guid: f57a4b0b86b7a1d41842f6ffc8bcff77, type: 3}

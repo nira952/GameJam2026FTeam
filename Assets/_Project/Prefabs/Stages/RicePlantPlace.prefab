@@ -179,7 +179,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c73b7215b6578c44cadca18778a28a8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RicePlantScript
-  timePerStage: 5
+  timePerStage: 3
   spriteRenderer: {fileID: 523683274618083365}
   growthSprites:
   - {fileID: 7852397675237858928, guid: 2be76303c816fa4429173be2f3c55714, type: 3}

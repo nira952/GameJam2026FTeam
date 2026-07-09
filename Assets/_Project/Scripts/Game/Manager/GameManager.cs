@@ -91,6 +91,8 @@ public class GameManager : MonoBehaviour
         gameUIManager.UpdateCountDownText(0); // カウントダウン終了後に0を表示
         // カウントダウン終了後、ゲーム状態をPlayingに変更
         currentGameState = GameState.Playing;
+
+        AudioManager.Instance.Play(BgmName.Game);
     }
 
     /// <summary>

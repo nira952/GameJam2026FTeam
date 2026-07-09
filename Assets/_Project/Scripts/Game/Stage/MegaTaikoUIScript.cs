@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class MegaTaikoUIScript : MonoBehaviour
 {
+    [SerializeField] private CanvasGroup megaTaikoCanvasGroup; // メガ太鼓モードのUIを管理するCanvasGroup
+
     [SerializeField] private Slider ricePowerSlider; // 稲パワーのスライダーUI
 
     [SerializeField] private Image riceSliderFill;
@@ -18,6 +20,8 @@ public class MegaTaikoUIScript : MonoBehaviour
 
     private void Start()
     {
+        megaTaikoCanvasGroup.alpha = 0f; // 初期状態では非表示にする
+
         // 初期カラーを設定
         UpdateSliderColor(ricePowerSlider.value);
 
@@ -83,6 +87,17 @@ public class MegaTaikoUIScript : MonoBehaviour
                 // 完了時に一応、最新のグラデーション色を再適用して整合性を保つ
                 ApplyCurrentGradientColor();
             });
+    }
+
+
+    public void OpenMegaTaikoPanel()
+    {
+        megaTaikoCanvasGroup.DOFade(1f, 0.5f).SetEase(Ease.OutCubic);
+    }
+
+    public void CloseMegaTaikoPanel()
+    {
+        megaTaikoCanvasGroup.DOFade(0f, 0.5f).SetEase(Ease.OutCubic);
     }
 
     void OnDestroy()

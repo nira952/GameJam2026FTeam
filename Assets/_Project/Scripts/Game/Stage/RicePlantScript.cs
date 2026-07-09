@@ -29,7 +29,7 @@ public class RicePlantScript : MonoBehaviour
     {
         if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
 
-        DebugUpdateAppearance();
+        UpdateAppearance();
     }
 
     private void Update()
@@ -54,7 +54,7 @@ public class RicePlantScript : MonoBehaviour
         if (currentStage < GrowthStage.Yellow)
         {
             currentStage++;
-            DebugUpdateAppearance();
+            UpdateAppearance();
         }
     }
 

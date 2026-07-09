@@ -102,4 +102,16 @@ public class MegaTaikoScript : MonoBehaviour, IInteractable
             }
         }
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        megaTaikoUI.OpenMegaTaikoPanel();
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        megaTaikoUI.CloseMegaTaikoPanel();
+    }
+
+
 }

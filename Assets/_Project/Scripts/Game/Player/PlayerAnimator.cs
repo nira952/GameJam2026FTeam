@@ -7,6 +7,7 @@ public class PlayerAnimator : MonoBehaviour
     private Animator animator;
 
     private PlayerInputController playerInputController;
+    private PlayerHarvest playerHarvest;
 
     private void Awake()
     {
@@ -16,6 +17,14 @@ public class PlayerAnimator : MonoBehaviour
     public void Initialize(PlayerInputController playerInputController, PlayerHarvest playerHarvest)
     {
         this.playerInputController = playerInputController;
+        this.playerHarvest = playerHarvest;
+
+        SettingActions();
+
+    }
+
+    private void SettingActions()
+    {
 
         if (playerInputController == null)
         {
@@ -23,17 +32,22 @@ public class PlayerAnimator : MonoBehaviour
             return;
         }
 
+
         playerHarvest.OnHarvestAction += OnHarvest;
 
         // プレイヤーの移動入力イベントに登録
         playerInputController.OnMoveAction += OnMove;
         playerInputController.OnThunderPressed += OnThunder;
-
     }
 
 
     private void OnMove(Vector2 movementInput)
     {
+        if (GameManager.Instance.CurrentGameState != GameState.Playing)
+        {
+            // ゲームがプレイ中でない場合、アニメーションを再生しない
+            return;
+        }
 
         if (movementInput == Vector2.zero)
         {
@@ -60,6 +74,13 @@ public class PlayerAnimator : MonoBehaviour
 
     private void OnThunder(Vector3 vector, bool isPressed)
     {
+        if (GameManager.Instance.CurrentGameState != GameState.Playing)
+        {
+            // ゲームがプレイ中でない場合、アニメーションを再生しない
+            return;
+        }
+
+
         if (isPressed) 
         {
             // 攻撃アニメーションの再生
@@ -69,6 +90,13 @@ public class PlayerAnimator : MonoBehaviour
 
     private void OnHarvest()
     {
+        if (GameManager.Instance.CurrentGameState != GameState.Playing)
+        {
+            // ゲームがプレイ中でない場合、アニメーションを再生しない
+            return;
+        }
+
+
         // 収穫アニメーションの再生
         animator.Play("Player_Happy");
     }
@@ -79,6 +107,9 @@ public class PlayerAnimator : MonoBehaviour
         if (playerInputController != null)
         {
             playerInputController.OnMoveAction -= OnMove;
+            playerInputController.OnThunderPressed -= OnThunder;
+            playerHarvest.OnHarvestAction -= OnHarvest;
+
         }
 
     }
