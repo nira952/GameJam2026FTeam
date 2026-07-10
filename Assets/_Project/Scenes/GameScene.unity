@@ -5416,20 +5416,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &242193783790392436
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5815030002387104796}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.ContentSizeFitter
-  m_HorizontalFit: 2
-  m_VerticalFit: 2
 --- !u!1 &273116223944347229
 GameObject:
   m_ObjectHideFlags: 0
@@ -5481,20 +5467,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &511025202711405925
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3161168143296118679}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.ContentSizeFitter
-  m_HorizontalFit: 2
-  m_VerticalFit: 2
 --- !u!225 &530923047817440993
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -5745,7 +5717,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 192}
-  m_SizeDelta: {x: 525.01, y: 164.95}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1344522841362219754
 CanvasRenderer:
@@ -5860,7 +5832,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7621567840712804137, guid: 99b59e6741a83884e81d492eb7e3c362, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.18
       objectReference: {fileID: 0}
     - target: {fileID: 7621567840712804137, guid: 99b59e6741a83884e81d492eb7e3c362, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6079,7 +6051,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!222 &2281129858133974240
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6108,7 +6080,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Score
+  m_text: 'Score:  000'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: aedb7f34bc2613e4e9c465b265ceae42, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: dbb24a10aa7745e49ad31f24c42f2f75, type: 2}
@@ -6135,8 +6107,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 117.9
-  m_fontSizeBase: 117.9
+  m_fontSize: 161.33
+  m_fontSizeBase: 161.33
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -6174,7 +6146,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: -293.79492, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -6424,10 +6396,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 8970469576168229068}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 147.38, y: -324.125}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 97.380005, y: -274.125}
+  m_SizeDelta: {x: 549.6, y: 109.97}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2805942933815755479
 GameObject:
@@ -6440,7 +6412,6 @@ GameObject:
   - component: {fileID: 8832409226009701786}
   - component: {fileID: 298169684348114335}
   - component: {fileID: 6410625624104995194}
-  - component: {fileID: 7708728236264397465}
   m_Layer: 5
   m_Name: ResultScoreText
   m_TagString: Untagged
@@ -6533,7 +6504,6 @@ GameObject:
   - component: {fileID: 2640259412552644110}
   - component: {fileID: 1344522841362219754}
   - component: {fileID: 3978177598914730709}
-  - component: {fileID: 511025202711405925}
   m_Layer: 5
   m_Name: ResultScoreText (2)
   m_TagString: Untagged
@@ -6889,7 +6859,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Score
+  m_text: 'Score:  000'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: aedb7f34bc2613e4e9c465b265ceae42, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: dbb24a10aa7745e49ad31f24c42f2f75, type: 2}
@@ -6916,8 +6886,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 117.9
-  m_fontSizeBase: 117.9
+  m_fontSize: 100
+  m_fontSizeBase: 100
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -6955,7 +6925,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: -189.86743, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -7000,7 +6970,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Score
+  m_text: 'Score:  000'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: aedb7f34bc2613e4e9c465b265ceae42, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: dbb24a10aa7745e49ad31f24c42f2f75, type: 2}
@@ -7027,8 +6997,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 117.9
-  m_fontSizeBase: 117.9
+  m_fontSize: 100
+  m_fontSizeBase: 100
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -7066,7 +7036,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: -157.8894, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -7119,8 +7089,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 16777215
+  m_fontColor: {r: 1, g: 1, b: 1, a: 0}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -7201,20 +7171,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -150}
   m_SizeDelta: {x: 120, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &4423866853611664943
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6667260223602746019}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.ContentSizeFitter
-  m_HorizontalFit: 2
-  m_VerticalFit: 2
 --- !u!224 &4457105974569905902
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7348,7 +7304,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Score
+  m_text: 'Score:  000
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: aedb7f34bc2613e4e9c465b265ceae42, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: dbb24a10aa7745e49ad31f24c42f2f75, type: 2}
@@ -7375,8 +7333,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 117.9
-  m_fontSizeBase: 117.9
+  m_fontSize: 100
+  m_fontSizeBase: 100
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -7414,7 +7372,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: -193.86462, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -7491,10 +7449,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 8970469576168229068}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 147.38, y: -194.47499}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 97.380005, y: -144.47499}
+  m_SizeDelta: {x: 549.6, y: 109.97}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5066278098613291277
 CanvasRenderer:
@@ -7787,10 +7745,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 8970469576168229068}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 147.38, y: -453.77496}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 97.380005, y: -403.77496}
+  m_SizeDelta: {x: 549.6, y: 109.97}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &5630149237859507581
 GameObject:
@@ -7897,7 +7855,6 @@ GameObject:
   - component: {fileID: 8099061436615081688}
   - component: {fileID: 3647192454689187044}
   - component: {fileID: 2330931390232187355}
-  - component: {fileID: 242193783790392436}
   m_Layer: 5
   m_Name: ResultScoreText (4)
   m_TagString: Untagged
@@ -8052,7 +8009,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Score
+  m_text: 'Score:  000
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: aedb7f34bc2613e4e9c465b265ceae42, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: dbb24a10aa7745e49ad31f24c42f2f75, type: 2}
@@ -8079,8 +8038,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 117.9
-  m_fontSizeBase: 117.9
+  m_fontSize: 100
+  m_fontSizeBase: 100
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -8118,7 +8077,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: -187.86853, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -8169,7 +8128,6 @@ GameObject:
   - component: {fileID: 5036056113093265764}
   - component: {fileID: 2281129858133974240}
   - component: {fileID: 4937244562541187345}
-  - component: {fileID: 4423866853611664943}
   m_Layer: 5
   m_Name: ResultScoreText (1)
   m_TagString: Untagged
@@ -8350,20 +8308,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7708728236264397465
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2805942933815755479}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.ContentSizeFitter
-  m_HorizontalFit: 2
-  m_VerticalFit: 2
 --- !u!114 &7713576789808517985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8408,20 +8352,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &7754813968870167473
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9196452823779828164}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.ContentSizeFitter
-  m_HorizontalFit: 2
-  m_VerticalFit: 2
 --- !u!224 &7762373287831968340
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8544,10 +8474,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 8970469576168229068}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 147.38, y: -583.425}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 97.380005, y: -545}
+  m_SizeDelta: {x: 886.67, y: 177.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &8157004357863972998
 Canvas:
@@ -8778,10 +8708,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 8970469576168229068}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 147.38, y: -64.825}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 97.380005, y: -14.824997}
+  m_SizeDelta: {x: 549.6, y: 109.97}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8900628631178008587
 CanvasRenderer:
@@ -8834,7 +8764,6 @@ GameObject:
   - component: {fileID: 5539553105221173902}
   - component: {fileID: 5357779735154559951}
   - component: {fileID: 4135315275399091596}
-  - component: {fileID: 7754813968870167473}
   m_Layer: 5
   m_Name: ResultScoreText (3)
   m_TagString: Untagged

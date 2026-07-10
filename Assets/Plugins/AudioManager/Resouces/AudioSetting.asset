@@ -31,7 +31,7 @@ MonoBehaviour:
     volume: 0.265
   - name: Don
     clip: {fileID: 8300000, guid: 77ccb131bfce49f4bb8ad464407018cb, type: 3}
-    volume: 0.726
+    volume: 1
   - name: GameFinish
     clip: {fileID: 8300000, guid: bf34c109a95cfed4ea18e23a7331cdd6, type: 3}
     volume: 0.599

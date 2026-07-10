@@ -180,7 +180,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
         // リザルトパネルを開く
-        gameUIManager.OpenResultPanel(ScoreManager.Instance.GetScores());
+        StartCoroutine(gameUIManager.OpenResultPanel(ScoreManager.Instance.GetScores()));
 
         // ゲームオーバー後はカーソルを表示する
         SetCursorState(true);
@@ -192,12 +192,16 @@ public class GameManager : MonoBehaviour
         // ゲームオーバー後にリトライする場合、ゲーム状態をReadyに戻す
         currentGameState = GameState.Ready;
         OnGameStateChanged(currentGameState);
+
+
+        ScoreManager.Instance.ResetScores(); // スコアをリセットする処理を呼び出す
         // ゲームシーンを再読み込みしてリトライ
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     private void EndGame()
     {
+        ScoreManager.Instance.ResetScores(); // スコアをリセットする処理を呼び出す
         SceneManager.LoadScene("TitleScene"); // タイトルシーンに戻る
     }
 

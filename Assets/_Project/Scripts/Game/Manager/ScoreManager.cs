@@ -120,6 +120,14 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
+    public void ResetScores()
+    {
+        for (int i = 0; i < currentScore.Length; i++)
+        {
+            currentScore[i] = 0;
+        }
+    }
+
     private void OnDestroy()
     {
         // シングルトンのインスタンスを破棄する際に、Instanceをnullに設定

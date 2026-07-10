@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -83,19 +84,44 @@ public class GameUIManager : MonoBehaviour
     /// <summary>
     /// リザルトパネルを開く
     /// </summary>
-    public void OpenResultPanel(int[] scores)
+    public IEnumerator OpenResultPanel(int[] scores)
     {
+
         for (int i = 0; i < scores.Length && i < resultScoreText.Length; i++)
         {
-            string scoreText = $"{(ScoreType)i}: {scores[i]}";
+
+            string scoreText = $"{(ScoreType)i}: 0000";
 
             resultScoreText[i].text = scoreText;
         }
-    
+
+
         resultPanel.DOFade(1, 0.5f);
+
+
+        yield return new WaitForSeconds(2.0f);
+
+
+        for (int i = 0; i < scores.Length && i < resultScoreText.Length; i++)
+        {
+            yield return new WaitForSeconds(0.5f);
+
+            string scoreText = $"{(ScoreType)i}: {scores[i]}";
+
+            resultScoreText[i].text = scoreText;
+
+            AudioManager.Instance.Play(SeName.Don);
+        }
+
+        yield return new WaitForSeconds(0.1f);
+
+        AudioManager.Instance.Play(SeName.Don);
+
         resultPanel.interactable = true;
         resultPanel.blocksRaycasts = true;
     }
+
+
 
     private void OnBossSpawned()
     {
